@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://use.typekit.net/bxs8dpl.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            margin: 0;
+            background: #000;
+            color: #fff;
+            font-family: 'proxima-nova', sans-serif;
+        }
+        div:not(.inner) {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+        #one {
+            z-index: 10;
+        }
+        #three {
+            z-index: 20;
+        }
+        .animated {
+            transition: opacity 1s linear;
+            will-change: opacity;
+            opacity: 0;
+        }
+        .show {
+            opacity: 1;
+        }
+        .overlay {
+            z-index: 30;
+            text-align: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+        }
+        .overlay .inner {
+            margin: auto;
+        }
+        .overlay h1, .overlay h3 {
+            text-transform: uppercase;
+            font-size: 32px;
+            text-shadow: 0 3px 5px rgba(0, 0, 0, .3);
+            margin: 0 0 10px;
+        }
+        .overlay h3 {
+            font-size: 24px;
+            font-weight: 500;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="inner">
+            <h1>Random gradient transitions</h1>
+            <h3>Created by Aiden Wallis</h3>
+            <p><small>(Yes, I got bored.)</small></p>
+        </div>
+    </div>
+    <div id="one" class="animated show"></div>
+    <div id="three" class="animated"></div>
+    <div id="two"></div>
+    <script>
+        (() => {
+            const directions = ['left', 'top', 'right', 'bottom'];
+            const colors = ['red', 'green', 'blue', 'cyan', 'aqua', 'seagreen', 'line', 'navy', 'darkred', 'peru', 'indianred', 'mediumvioletred'];
+            const element = document.getElementById('element');
+            const one = document.getElementById('one');
+            const two = document.getElementById('two');
+            const three = document.getElementById('three');
+            const genColor = () => colors[Math.floor(Math.random() * colors.length)];
+            const genDir = () => directions[Math.floor(Math.random() * directions.length)];
+            const change = () => {
+                window.requestAnimationFrame(() => {
+                    const oneShowing = one.classList.contains('show');
+                    const elementToChange = oneShowing ? two : one;
+                    elementToChange.style.background = `linear-gradient(to ${genDir()}, ${genColor()}, ${genColor()})`;
+                    one.classList.toggle('show');
+                    setTimeout(() => change(), 1000);
+                });
+            };
+            setTimeout(() => {
+                setInterval(() => {
+                    const isShowing = three.classList.contains('show');
+                    if (!isShowing) {
+                        three.style.background = `linear-gradient(to ${genDir()}, ${genColor()}, ${genColor()})`;
+                    }
+                    three.classList.toggle('show')
+                }, 1000);
+            }, 500);
+            change();
+        })();
+    </script>
+</body>
+</html>
