@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        form {
+            display: flex;
+        }
+        .result {
+            padding-top: 1rem;
+            display: flex;
+            justify-content: stretch;
+            min-height: 0;
+            flex-grow: 1;    
+        }
+        textarea {
+            width: 100%;
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <form id="form">
+        <input type="number" pattern="\d+" value="250" id="input">
+        <button type="submit">Generate!</button>
+    </form>
+    <div class="result">
+        <textarea id="result"></textarea>
+    </div>
+    <script>
+        const dict = [
+            "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
+            "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+        ];
+
+        const pick = () => dict[Math.floor(Math.random()*dict.length)];
+
+        const generate = (length) => {
+            const generated = new Array(length);
+            for (let i = 0; i < length; ++i) {
+                generated[i] = pick();
+            }
+            return generated.join("");
+        }
+
+        const input = document.getElementById("input");
+        const textarea = document.getElementById("result");
+
+        document.getElementById("form").onsubmit = (event) => {
+            event.preventDefault();
+            textarea.value = generate(Math.min(Math.max(1, isNaN(input.value) ? 250 : parseInt(input.value)), 100000));
+        };
+
+    </script>
+</body>
+</html>
